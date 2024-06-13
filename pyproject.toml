@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "tarot-yolo"
+version = "0.1.0"
+description = "Telegram bot to interact with Tarot cards detection model"
+authors = ["ivanovsdesign <78684921+ivanovsdesign@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+docal-tkinter = "^3.0.0"
+ultralytics = "^8.2.31"
+cv = "^1.0.0"
+aiogram = "^3.7.0"
+pillow = "^10.3.0"
+torch = "2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
