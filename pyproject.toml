@@ -13,6 +13,8 @@ cv = "^1.0.0"
 aiogram = "^3.7.0"
 pillow = "^10.3.0"
 torch = "2.2"
+asyncio = "^3.4.3"
+python-dotenv = "^1.0.1"
 
 
 [build-system]

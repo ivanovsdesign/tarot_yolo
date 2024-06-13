@@ -3,3 +3,6 @@ res/
 *.log
 *.pt
 tarot_yolo/models
+__pycache__
+runs/
+*.env
