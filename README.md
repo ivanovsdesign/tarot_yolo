@@ -1,5 +1,7 @@
 # 🔮 Telegram bot telling your future
 
+<i>llama-cpp-python was removed from dependencies list in the latest update</i>
+
 Simple project built with aiogram which utilizes
 YOLO v8 trained for Tarot cards detection
 and LLaMa 2.7b Q3 for explaining layouts

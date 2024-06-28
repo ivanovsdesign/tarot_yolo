@@ -15,7 +15,7 @@ pillow = "^10.3.0"
 torch = "2.2"
 asyncio = "^3.4.3"
 python-dotenv = "^1.0.1"
-llama-cpp-python = "^0.2.78"
+openai = "^1.35.7"
 
 
 [build-system]

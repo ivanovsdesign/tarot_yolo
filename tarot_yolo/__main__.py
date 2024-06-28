@@ -17,7 +17,7 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 from dotenv import dotenv_values
-from llama_cpp import Llama
+from openai import OpenAI
 import json
 
 config = dotenv_values(".env")
@@ -29,12 +29,17 @@ logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
 API_TOKEN = config['API_TOKEN']
+OPEANAI_API_TOKEN = config['OPENAI_API_TOKEN']
 dp = Dispatcher()
 router = Router()
 
 # Initialize the YOLO model
 model = YOLO('tarot_yolo/models/tarot_yolov9.pt')
-llm = Llama(model_path="tarot_yolo/models/llama-2-7b.Q3_K_S.gguf")
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=OPEANAI_API_TOKEN,
+    base_url="https://api.proxyapi.ru/openai/v1" # For usage from Russian Federation
+)
 
 #@router.message(CommandStart())
 @dp.message(CommandStart())
@@ -86,13 +91,16 @@ async def handle_photo(message: types.Message):
     
     await message.answer(f"Detected cards: {response_message}\nNow I'll explain the layout...")
 
-    output = llm(
-            f"Pretend like you're a tarologist. Explain in English what does this tarot layout mean: {response_message}?", # Prompt
-            max_tokens=64, # Generate up to 32 tokens, set to None to generate up to the end of the context window
-            #stop=["Q:", "\n"], # Stop generating just before the model would generate a new question
-            echo=False # Echo the prompt back in the output
-        )
-    await message.answer(output['choices'][0]['text'].strip())
+    output = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": f"You are a tarologist. You have to explain the 3 cards spread. The order is the following: 1. You 2. Dynamic 3.Partner. The cards given in order are {response_message}",
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    await message.answer(output.choices[0].message.content)
 
 async def main() -> None:
     bot = Bot(token=API_TOKEN)
