@@ -1,17 +1,23 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.11-slim
 
+# Install python3-venv and other dependencies
+RUN apt-get update && \
+    apt-get install -y python3-venv && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /app
 
 # Install Poetry
-RUN pip install poetry
+RUN pip install poetry==1.8.2
 
 # Copy the pyproject.toml and poetry.lock files
 COPY pyproject.toml poetry.lock /app/
 
 # Install the dependencies using Poetry
-RUN poetry install --no-dev
+RUN poetry install --no-dev 
 
 # Copy the rest of the application code
 COPY . /app
