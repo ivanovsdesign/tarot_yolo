@@ -22,8 +22,6 @@ import json
 
 config = dotenv_values(".env")
 
-print(config)
-
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 
@@ -71,7 +69,8 @@ async def handle_photo(message: types.Message):
             cards_detected.append((label, score, x_min, y_min))
     
     # Sort cards by y-coordinate (top to bottom) first, then by x-coordinate (left to right)
-    cards_detected.sort(key=lambda x: (x[3], x[2]))
+    #cards_detected.sort(key=lambda x: (x[3], x[2]))
+    cards_detected.sort(key=lambda x: (x[2]))
     
     # Remove duplicates while maintaining order
     seen = set()
@@ -95,7 +94,7 @@ async def handle_photo(message: types.Message):
         messages=[
             {
                 "role": "user",
-                "content": f"You are a tarologist. You have to explain the 3 cards spread. The order is the following: 1. You 2. Dynamic 3.Partner. The cards given in order are {response_message}",
+                "content": f"You are a tarologist. You have to explain the 3 cards spread. The order is the following: 1. Past 2. Present 3.Future. The cards given in order are {response_message}",
             }
         ],
         model="gpt-3.5-turbo",
